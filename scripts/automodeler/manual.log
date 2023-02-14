@@ -1,0 +1,34 @@
+モジュール概要
+model_system_generator.py : 以下のプログラムを実行するモジュール
+input_reader.py           : インプットファイルを読み込んで必要な情報を抽出
+duplicate_checker.py      : 候補の組み合わせを既に検証済みか調べる
+conformation_designer.py  : 各候補のxyz座標を決めるためのクラス
+atom_relocation.py        : 原子のxyz座標を決める
+substituent_relocation.py : 置換基のxyz座標を決める
+molecule_relocation.py    : 分子のxyz座標を決める
+translation.py            : 分子を平行移動させる
+rotation.py               : 分子を回転させる(x, y, z軸回転と任意軸回転のクラスがある)
+rotation_matrix.py        : 回転行列を定義
+min_input_generator.py    : MIN計算のインプットを作成する
+elementdata.py            : 共有結合半径が載ってる(僕の作ったプログラムではないです)
+search.py                 : 候補の組み合わせをDFSアルゴリズムで全探索
+
+# # # # # 生成モード# # # # #
+モデル生成にあたり、以下の3種の生成モードを利用できる
+原子モード(Atom mode)：指定した座標に原子を置く
+置換基モード(Substituent mode)：指定した原子に置換基を付与する
+分子モード(Molecule mode) ：指定した座標に分子を置く
+
+# # # # # インプットファイル(.com)の作り方 # # # # #
+インプットファイルは以下の3つのセクションから構成される
+1. オプションセクション(必要なければ書かなくてもいい)
+2. モデル分子セクション(絶対に必要)
+3. 列挙セクション(絶対に必要)
+
+オプションセクション
+OptionsとENDで囲み、その間に以下のオプションを指定できる
+calc = str
+
+frozen = True / False (デフォルトではFalse)
+Trueの場合、モデル系で共通の原子はFrozenAtomsとして扱われる
+Falseの場合、全原子を動かして構造最適化する
